@@ -6,10 +6,9 @@ app.use(express.json());
 const cors = require('cors');
 app.use(cors());
 
-
-// Initialize Firebase Admin SDK
+// Initialize Firebase Admin SDK using environment variable
 admin.initializeApp({
- const serviceAccount = JSON.parse(process.env.FIREBASE_CREDENTIALS);
+  credential: admin.credential.cert(JSON.parse(process.env.FIREBASE_CREDENTIALS))
 });
 
 const db = admin.firestore();
@@ -58,13 +57,16 @@ app.post('/login', async (req, res) => {
     res.status(500).json({ success: false, error: 'Internal server error' });
   }
 });
-app.get('/',(req,res)=>{
-   try {
-    res.status(200).json({success:true,message:"hello world"});
-   } catch (error) {
-    res.status(500).json({success:false,message:"internal server error"})
-   }
-})
+
+// Test Route
+app.get('/', (req, res) => {
+  try {
+    res.status(200).json({ success: true, message: "hello world" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
+
 // Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT,'0.0.0.0', () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, '0.0.0.0', () => console.log(`Server running on port ${PORT}`));
