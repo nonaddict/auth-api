@@ -9,7 +9,7 @@ app.use(cors());
 
 // Initialize Firebase Admin SDK
 admin.initializeApp({
-  credential: admin.credential.cert(require(path.join(__dirname, 'config', 'serviceAccountKey.json')))
+ const serviceAccount = JSON.parse(process.env.FIREBASE_CREDENTIALS);
 });
 
 const db = admin.firestore();
