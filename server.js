@@ -42,7 +42,7 @@ app.post('/login', async (req, res) => {
     const userDoc = await usersCollection.doc(username).get();
 
     if (!userDoc.exists) {
-      return res.status(200).json({ success: "null", message: 'User not found' });
+      return res.status(200).json({ success: false, message: 'User not found' });
     }
 
     const data = userDoc.data();
