@@ -50,7 +50,7 @@ app.post('/login', async (req, res) => {
     if (data.password === password) {
       res.status(200).json({ success: true, message: 'Login successful' });
     } else {
-      res.status(401).json({ success: true, message: 'Incorrect password' });
+      res.status(200).json({ success: false, message: 'Incorrect password' });
     }
   } catch (err) {
     console.error('Login error:', err);
