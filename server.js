@@ -42,7 +42,7 @@ app.post('/login', async (req, res) => {
     const userDoc = await usersCollection.doc(username).get();
 
     if (!userDoc.exists) {
-      return res.status(404).json({ success: false, message: 'User not found' });
+      return res.status(200).json({ success: "null", message: 'User not found' });
     }
 
     const data = userDoc.data();
@@ -50,7 +50,7 @@ app.post('/login', async (req, res) => {
     if (data.password === password) {
       res.status(200).json({ success: true, message: 'Login successful' });
     } else {
-      res.status(401).json({ success: false, message: 'Incorrect password' });
+      res.status(401).json({ success: true, message: 'Incorrect password' });
     }
   } catch (err) {
     console.error('Login error:', err);
