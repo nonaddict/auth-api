@@ -22,7 +22,7 @@ app.post('/signup', async (req, res) => {
     const userDoc = await usersCollection.doc(username).get();
     
     if (userDoc.exists) {
-      return res.status(400).json({ success: false, message: 'User already exists' });
+      return res.status(200).json({ success: false, message: 'User already exists' });
     }
 
     // Add the new user to Firestore
