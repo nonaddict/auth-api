@@ -6,7 +6,6 @@ app.use(express.json());
 const cors = require('cors');
 app.use(cors());
 
-// Initialize Firebase Admin SDK using environment variable
 admin.initializeApp({
   credential: admin.credential.cert(JSON.parse(process.env.FIREBASE_CREDENTIALS))
 });
@@ -34,7 +33,7 @@ app.post('/signup', async (req, res) => {
   }
 });
 
-// Route to validate login credentials
+// Route login 
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
@@ -88,14 +87,14 @@ app.put('/updateScore', async (req, res) => {
   }
 
   try {
-    // Check if the user exists in the database
+    
     const userDoc = await usersCollection.doc(username).get();
 
     if (!userDoc.exists) {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
 
-    // Update the user's score in Firestore
+   
     await usersCollection.doc(username).update({
       score: score
     });
