@@ -80,6 +80,32 @@ app.get('/', (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
+app.put('/updateScore', async (req, res) => {
+  const { username, score } = req.body; // Extract username and score from the request body
+
+  if (!username || score === undefined) {
+    return res.status(400).json({ success: false, message: 'Username and score are required' });
+  }
+
+  try {
+    // Check if the user exists in the database
+    const userDoc = await usersCollection.doc(username).get();
+
+    if (!userDoc.exists) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    // Update the user's score in Firestore
+    await usersCollection.doc(username).update({
+      score: score
+    });
+
+    return res.status(200).json({ success: true, message: 'Score updated successfully' });
+  } catch (err) {
+    console.error('Error updating score:', err);
+    return res.status(500).json({ success: false, error: 'Internal server error' });
+  }
+});
 
 // Start server
 const PORT = process.env.PORT || 5000;
