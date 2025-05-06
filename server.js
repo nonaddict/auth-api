@@ -62,7 +62,7 @@ app.get('/getScores', async (req, res) => {
     const usersArray = [];
 
     usersSnapshot.forEach(doc => {
-      const { username, score } = doc.data(); // Extract from document fields
+      const { username, score } = doc.data(); 
       usersArray.push({ username, score });
     });
 
