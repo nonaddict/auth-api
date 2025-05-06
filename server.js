@@ -106,7 +106,22 @@ app.put('/updateScore', async (req, res) => {
     return res.status(500).json({ success: false, error: 'Internal server error' });
   }
 });
+app.get('/user/:username', async (req, res) => {
+  const { username } = req.params;
 
+  try {
+    const userDoc = await usersCollection.doc(username).get();
+
+    if (!userDoc.exists) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    return res.status(200).json({ success: true, user: userDoc.data() });
+  } catch (err) {
+    console.error('Error fetching user:', err);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+});
 // Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
