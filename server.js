@@ -13,7 +13,7 @@ admin.initializeApp({
 const db = admin.firestore();
 const usersCollection = db.collection('users');
 
-// Route to create a new user
+// Route to create a new user(i made the status code 200 because if it is not the request doesnt come through)
 app.post('/signup', async (req, res) => {
   const { username, password,score } = req.body;
   
