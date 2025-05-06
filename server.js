@@ -57,7 +57,21 @@ app.post('/login', async (req, res) => {
     res.status(500).json({ success: false, error: 'Internal server error' });
   }
 });
+app.get('/getScores', async (req, res) => {
+  try {
+    const usersSnapshot = await usersCollection.get();
+    const usersArray = [];
 
+    usersSnapshot.forEach(doc => {
+      const { username, score } = doc.data(); // Extract from document fields
+      usersArray.push({ username, score });
+    });
+
+    res.status(200).json({ success: true, users: usersArray });
+  } catch (err) {
+    res.status(500).json({ success: false, message: "internal server error" });
+  }
+});
 // Test Route
 app.get('/', (req, res) => {
   try {
@@ -69,4 +83,4 @@ app.get('/', (req, res) => {
 
 // Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, '0.0.0.0', () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
