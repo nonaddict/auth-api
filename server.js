@@ -16,7 +16,7 @@ const usersCollection = db.collection('users');
 
 // Route to create a new user
 app.post('/signup', async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password,score } = req.body;
   
   try {
     const userDoc = await usersCollection.doc(username).get();
@@ -26,7 +26,7 @@ app.post('/signup', async (req, res) => {
     }
 
     // Add the new user to Firestore
-    await usersCollection.doc(username).set({ password });
+   await usersCollection.doc(username).set({ username, password, score });
     res.status(201).json({ success: true, message: 'User created successfully' });
   } catch (err) {
     console.error('Error creating user:', err);
