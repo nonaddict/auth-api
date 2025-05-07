@@ -15,7 +15,7 @@ const usersCollection = db.collection('users');
 
 // Route to create a new user(i made the status code 200 because if it is not the request doesnt come through)
 app.post('/signup', async (req, res) => {
-  const { username, password,score } = req.body;
+  const { username, password, score, email } = req.body;
   
   try {
     const userDoc = await usersCollection.doc(username).get();
@@ -25,7 +25,7 @@ app.post('/signup', async (req, res) => {
     }
 
     // Add the new user to Firestore
-   await usersCollection.doc(username).set({ username, password, score });
+   await usersCollection.doc(username).set({ username, password, score, email });
     res.status(201).json({ success: true, message: 'User created successfully' });
   } catch (err) {
     console.error('Error creating user:', err);
